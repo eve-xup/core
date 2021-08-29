@@ -20,7 +20,7 @@ class CreateUniverseNamesTable extends Migration
                 'alliance',
                 'character',
                 'constellations',
-                'corporations',
+                'corporation',
                 'inventory_type',
                 'region',
                 'solar_system',

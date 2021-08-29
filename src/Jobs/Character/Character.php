@@ -3,6 +3,7 @@
 namespace Xup\Core\Jobs\Character;
 
 use LaravelEveTools\EveApi\Jobs\Characters\Character as CharacterJob;
+use Xup\Core\Jobs\Universe\Names;
 use Xup\Core\Models\Character\Character as CharacterModel;
 
 class Character extends CharacterJob
@@ -23,5 +24,6 @@ class Character extends CharacterJob
             'security_status' => property_exists($data, 'security_status') ? $data->security_status : null
         ])->save();
 
+        Names::dispatch()->delay(60);
     }
 }
