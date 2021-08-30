@@ -10,6 +10,8 @@ class Character extends Model
 {
     protected $primaryKey = 'character_id';
 
+    protected $fillable = [ 'character_id', 'name', 'corporation_id','alliance_id', 'security_status'];
+
     public function corporation()
     {
         return $this->hasOne(UniverseName::class, 'entity_id', 'corporation_id')

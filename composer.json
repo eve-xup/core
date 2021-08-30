@@ -16,5 +16,13 @@
             "type": "path",
             "url": "../../packages/LaravelEveTools/eveapi"
         }
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Xup\\Core\\CoreServiceProvider"
+            ]
+        }
+    }
+
 }

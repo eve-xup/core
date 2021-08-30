@@ -13,10 +13,10 @@ class CreateCharacterTable extends Migration
      */
     public function up()
     {
-        Schema::create('character', function (Blueprint $table) {
+        Schema::create('characters', function (Blueprint $table) {
             $table->bigInteger('character_id')->primary();
             $table->string('name');
-            $table->bigInteger('corporation_id');
+            $table->bigInteger('corporation_id')->nullable();
             $table->bigInteger('alliance_id')->nullable();
             $table->float('security_status')->nullable();
             $table->timestamps();
@@ -30,6 +30,6 @@ class CreateCharacterTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('character');
+        Schema::dropIfExists('characters');
     }
 }
