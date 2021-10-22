@@ -1,15 +1,19 @@
 {
     "name": "xup/core",
     "description": "Core files for xup project",
+    "version": "1.0",
     "autoload": {
         "psr-4": {
             "Xup\\Core\\": "src/"
-        }
+        },
+        "files": [
+            "src/Helpers/helpers.php"
+        ]
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "require": {
         "laravel/framework": "^8.54",
-        "laravelevetools/eve-api": "@dev"
+        "laravelevetools/eve-api": "^1.0"
     },
     "repositories": [
         {

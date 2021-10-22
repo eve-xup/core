@@ -12,6 +12,10 @@ class Names extends UniverseNamesJob implements shouldBeUnique
 
     private $items_id_limit = 1000;
 
+    public $tags = ['default'];
+
+    public $queue = 'default';
+
     public function handle()
     {
         $existing_ids = UniverseName::select('entity_id')
@@ -22,6 +26,7 @@ class Names extends UniverseNamesJob implements shouldBeUnique
         $entity_ids = collect();
 
         $entity_ids->push(Character::select('corporation_id')
+            ->whereNotNull('corporation_id')
             ->distinct()
             ->get()
             ->pluck('corporation_id')
@@ -35,13 +40,12 @@ class Names extends UniverseNamesJob implements shouldBeUnique
             ->toArray());
 
         $entity_ids->flatten()->diff($existing_ids)->values()->chunk($this->items_id_limit)->each(function($chunk){
-
             $this->request_body = collect($chunk->values()->all())->unique()->values()->all();
 
             $names = $this->retrieve();
 
             collect($names)->each(function($uname){
-               UniverseName::firstOfNew([
+               UniverseName::firstOrNew([
                    'entity_id'=>$uname->id,
                ], [
                    'name'   => $uname->name,

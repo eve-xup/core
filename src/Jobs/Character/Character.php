@@ -9,6 +9,10 @@ use Xup\Core\Models\Character\Character as CharacterModel;
 class Character extends CharacterJob
 {
 
+    public $tags = ['default'];
+
+    public $queue = 'default';
+
     public function handle()
     {
         $data = $this->retrieve();
@@ -17,12 +21,16 @@ class Character extends CharacterJob
 
         $model = CharacterModel::firstOrNew([
             'character_id' => $this->getCharacterId()
-        ], [
-            'name'=> $data->name,
-            'corporation_id' => $data->corporation_id,
-            'alliance_id'   => property_exists($data, 'alliance_id') ? $data->alliance_id : null,
-            'security_status' => property_exists($data, 'security_status') ? $data->security_status : null
-        ])->save();
+        ]);
+
+        $model->corporation_id = $data->corporation_id;
+        if(property_exists($data, 'alliance_id'))
+            $model->alliance_id = $data->alliance_id;
+
+        if(property_exists($data, 'security_status'))
+            $model->security_status = $data->security_status;
+
+        $model->save();
 
         Names::dispatch()->delay(60);
     }
