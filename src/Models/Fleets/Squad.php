@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Squad extends Model
 {
 
-    protected $fillable = ['squad_id', 'fleet_id', 'wing_id', 'name'];
+    protected $fillable = ['id', 'fleet_id', 'wing_id', 'name'];
+    public $incrementing = false;
 
     public function fleet(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -19,4 +20,8 @@ class Squad extends Model
         return $this->belongsTo(Wing::class, 'wing_id', 'wing_id');
     }
 
+    public function members(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(FleetMember::class, 'squad_id', 'id');
+    }
 }

@@ -2,10 +2,13 @@
 
 namespace Xup\Core\Jobs\Fleet;
 
-use LaravelEveTools\EveApi\Jobs\Fleets\Fleet;
+use LaravelEveTools\EveApi\Jobs\Fleets\Fleet as FleetJob;
+use Xup\Core\Models\Fleets\Fleet;
 
-class GetFleetInformation extends Fleet
+class GetFleetInformation extends FleetJob
 {
+
+    public $queue = 'fleet';
 
     /**
      * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
@@ -17,8 +20,15 @@ class GetFleetInformation extends Fleet
      */
     public function handle()
     {
-        $fleet = $this->retrieve();
+        $response = $this->retrieve();
 
-        dd($fleet->raw);
+        $fleet = Fleet::findOrFail($this->getFleetId());
+
+        $fleet->update([
+            'is_free_move' => $response->is_free_move,
+            'is_registered' => $response->is_registered,
+            'motd' => $response->motd
+        ]);
+
     }
 }

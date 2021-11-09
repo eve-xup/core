@@ -9,6 +9,8 @@ use Xup\Core\Models\Character\Character as CharacterModel;
 class Character extends CharacterJob
 {
 
+    const UNIVERSE_NAME_DELAY = 10;
+
     public $tags = ['default'];
 
     public $queue = 'default';
@@ -32,6 +34,6 @@ class Character extends CharacterJob
 
         $model->save();
 
-        Names::dispatch()->delay(60);
+        Names::dispatch()->delay(self::UNIVERSE_NAME_DELAY);
     }
 }

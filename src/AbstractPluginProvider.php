@@ -8,7 +8,7 @@ class AbstractPluginProvider extends ServiceProvider
 {
 
     public function registerPermissions(string $path, string $scope = 'global', $policy = null){
-        $key = sprintf('%s.permissions.%s', 'xup', $scope);
+        $key = sprintf('xup.permissions.%s', $scope);
         $this->mergeConfigFrom($path, $key);
 
         if(!is_null($policy)){

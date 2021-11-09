@@ -2,7 +2,12 @@
 
 namespace Xup\Core;
 
+use Illuminate\Auth\Events\Login;
+use Illuminate\Support\Facades\Event;
 use Xup\Core\Console\Commands\Sde\Update;
+use Xup\Core\Listeners\UpdateCharacterDetails;
+use Xup\Core\Models\Fleets\Fleet;
+use Xup\Core\Observers\FleetObserver;
 
 class CoreServiceProvider extends AbstractPluginProvider
 {
@@ -12,11 +17,22 @@ class CoreServiceProvider extends AbstractPluginProvider
         $this->loadMigrationsFrom(__DIR__.'/database/migrations');
 
         $this->add_commands();
+
+        $this->register_observers();
+
     }
 
     public function register()
     {
+        $this->register_events();
 
+        $this->register_observers();
+    }
+
+
+    public function register_observers()
+    {
+        Fleet::observe(FleetObserver::class);
     }
 
 
@@ -24,6 +40,10 @@ class CoreServiceProvider extends AbstractPluginProvider
         $this->commands([
             Update::class,
         ]);
+    }
+
+    public function register_events(){
+        Event::listen(Login::class, [UpdateCharacterDetails::class, 'handle']);
     }
 
 }

@@ -3,12 +3,23 @@
 namespace Xup\Core\Models;
 
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\Access\Authorizable;
 use LaravelEveTools\EveApi\Models\RefreshToken;
 use Xup\Core\Models\Access\Role;
 use Xup\Core\Models\Character\Character;
 
+/**
+ * @property int main_character_id
+ *
+ * @property Collection refresh_tokens
+ * @property Collection characters
+ * @property Collection roles
+ *
+ * @property Character main_character
+ *
+ */
 class User extends Model implements Authenticatable
 {
     use \Illuminate\Auth\Authenticatable, Authorizable;
