@@ -21,6 +21,7 @@ class CreateFleetTable extends Migration
             $table->boolean('invite_mode')->nullable();
             $table->boolean('is_free_move')->default(false);
             $table->boolean('is_registered')->default(false);
+            $table->boolean('kick_unregistered')->default(false);
             $table->longText('motd')->nullable();
             $table->softDeletes();
             $table->timestamps();

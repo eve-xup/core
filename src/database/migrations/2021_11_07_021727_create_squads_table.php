@@ -21,6 +21,15 @@ class CreateSquadsTable extends Migration
             $table->timestamps();
 
             $table->primary('id');
+
+            $table->foreign('fleet_id')
+                ->references('fleet_id')
+                ->on('fleets')
+                ->cascadeOnDelete();
+            $table->foreign('wing_id')
+                ->references('id')
+                ->on('wings')
+                ->cascadeOnDelete();
         });
     }
 

@@ -3,12 +3,25 @@
 namespace Xup\Core\Jobs\Fleet;
 
 use LaravelEveTools\EveApi\Jobs\Fleets\Fleet as FleetJob;
+use LaravelEveTools\EveApi\Models\RefreshToken;
 use Xup\Core\Models\Fleets\Fleet;
 
 class GetFleetInformation extends FleetJob
 {
 
     public $queue = 'fleet';
+
+    protected Fleet $fleet;
+
+    /**
+     * GetFleetInformation constructor.
+     * @param Fleet $fleet
+     */
+    public function __construct(Fleet $fleet)
+    {
+        $this->fleet = $fleet;
+        parent::__construct($fleet->fleet_id, $fleet->fleet_boss->refresh_token);
+    }
 
     /**
      * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException

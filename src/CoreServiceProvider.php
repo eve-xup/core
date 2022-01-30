@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Event;
 use Xup\Core\Console\Commands\Sde\Update;
 use Xup\Core\Listeners\UpdateCharacterDetails;
 use Xup\Core\Models\Fleets\Fleet;
+use Xup\Core\Models\Fleets\FleetMember;
+use Xup\Core\Observers\FleetMemberObserver;
 use Xup\Core\Observers\FleetObserver;
 
 class CoreServiceProvider extends AbstractPluginProvider
@@ -33,12 +35,12 @@ class CoreServiceProvider extends AbstractPluginProvider
     public function register_observers()
     {
         Fleet::observe(FleetObserver::class);
+        FleetMember::observe(FleetMemberObserver::class);
     }
 
 
     public function add_commands(){
         $this->commands([
-            Update::class,
         ]);
     }
 

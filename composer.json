@@ -14,14 +14,9 @@
     "require": {
         "php": "^7.4|^8.0",
         "laravel/framework": "^8.54",
-        "laravelevetools/eve-api": "^1.0"
+        "laravelevetools/eve-api": "@dev",
+        "laravelevetools/eve-seeder": "^1.0"
     },
-    "repositories": [
-        {
-            "type": "path",
-            "url": "../../packages/LaravelEveTools/eveapi"
-        }
-    ],
     "extra": {
         "laravel": {
             "providers": [

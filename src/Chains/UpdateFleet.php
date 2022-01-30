@@ -7,23 +7,26 @@ use LaravelEveTools\EveApi\Models\RefreshToken;
 use Xup\Core\Jobs\Fleet\GetFleetInformation;
 use Xup\Core\Jobs\Fleet\GetFleetMembers;
 use Xup\Core\Jobs\Fleet\GetWings;
+use Xup\Core\Models\Fleets\Fleet;
+use Xup\Web\Broadcasts\FleetSynced;
 
 class UpdateFleet
 {
-    public $token;
-    public $fleet_id;
 
-    public function __construct($fleet_id, RefreshToken $token)
+    public Fleet $fleet;
+
+    public function __construct(Fleet $fleet)
     {
-        $this->fleet_id = $fleet_id;
-        $this->token = $token;
+        $this->fleet = $fleet;
+
     }
 
     public function build(){
         return Bus::chain([
-            new GetFleetInformation($this->fleet_id, $this->token),
-            new GetWings($this->fleet_id, $this->token),
-            new GetFleetMembers($this->fleet_id, $this->token),
+            new GetFleetInformation($this->fleet),
+            new GetWings($this->fleet),
+            new GetFleetMembers($this->fleet),
+            //new FleetSynced($this->fleet_id),
         ]);
     }
 

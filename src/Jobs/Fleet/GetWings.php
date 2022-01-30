@@ -12,6 +12,13 @@ class GetWings extends Wings
 
     public $queue = 'fleet';
 
+    protected Fleet $fleet;
+
+    public function __construct(Fleet $fleet)
+    {
+        parent::__construct($fleet->fleet_id, $fleet->fleet_boss->refresh_token);
+    }
+
     public function handle()
     {
         $fleet = Fleet::findOrFail($this->getFleetId());

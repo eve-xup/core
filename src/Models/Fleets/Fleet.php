@@ -16,6 +16,7 @@ use Xup\Core\Models\User;
  * @property string title
  * @property bool tracking
  * @property int invite_mode
+ * @property bool $kick_unregistered
  *
  * @property Character fleet_boss
  * @property Collection wings
@@ -29,11 +30,21 @@ class Fleet extends Model
     const INVITES_APPROVAL = 2;
     const INVITES_OPEN = 3;
 
+    const InviteTypes = [
+        ['value' => null, 'text' => 'Fleet Closed'],
+        ['value' => 2, 'text' => 'Requires Approval'],
+        ['value' => 3, 'text' => 'Fleet Open'],
+    ];
+
     protected $primaryKey = 'fleet_id';
     public $incrementing = false;
 
+    public $casts = [
+        'kick_unregistered' => 'bool'
+    ];
 
-    protected $fillable = ['fleet_id', 'boss_id', 'title', 'is_free_move', 'is_registered', 'motd'];
+
+    protected $fillable = ['fleet_id', 'boss_id', 'title', 'invite_mode', 'kick_unregistered', 'is_free_move', 'is_registered', 'motd'];
 
 
 
@@ -41,6 +52,7 @@ class Fleet extends Model
     {
         return $this->belongsTo(Character::class, 'boss_id', 'character_id');
     }
+
 
     public function wings(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -59,6 +71,7 @@ class Fleet extends Model
 
     public function scopeInFleet(Builder $builder){
         $character_id = auth()->user()->characters->pluck('character_id');
+
         return $builder->whereHas('members', function(Builder $query) use ($character_id){
             $query->whereIn('character_id', $character_id);
         })->orWhereIn('boss_id', $character_id);

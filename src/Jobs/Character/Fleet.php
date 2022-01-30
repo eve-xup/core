@@ -12,6 +12,8 @@ class Fleet extends FleetJob
      */
     public $details = null;
 
+    public $queue = 'fleet';
+
     /**
      * @throws \Seat\Eseye\Exceptions\InvalidContainerDataException
      * @throws \Seat\Eseye\Exceptions\RequestFailedException

@@ -5,7 +5,9 @@ namespace Xup\Core\Models\Character;
 use Illuminate\Database\Eloquent\Model;
 use LaravelEveTools\EveApi\Models\RefreshToken;
 use LaravelEveTools\EveImages\Image;
+use Xup\Core\Models\Fleets\FleetMember;
 use Xup\Core\Models\Universe\UniverseName;
+use Xup\Core\Models\User;
 
 
 /**
@@ -41,6 +43,23 @@ class Character extends Model
     public function refresh_token(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(RefreshToken::class, 'character_id', 'character_id');
+    }
+
+    public function user(){
+
+        return $this->hasOneThrough(
+            User::class,
+            RefreshToken::class,
+            'character_id',
+            'id',
+            'character_id',
+            'user_id'
+        );
+    }
+
+    public function currentFleetMember(){
+        return $this->belongsTo(FleetMember::class, 'character_id', 'character_id')
+            ->whereHas('fleet');
     }
 
 

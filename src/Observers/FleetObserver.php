@@ -14,8 +14,12 @@ class FleetObserver
 
     public function created(Fleet $fleet){
 
-        (new UpdateFleet($fleet->fleet_id, $fleet->fleet_boss->refresh_token))->fire();
+        (new UpdateFleet($fleet))->fire();
 
+    }
+
+    public function restored(Fleet $fleet){
+         (new UpdateFleet($fleet))->fire();
     }
 
 }

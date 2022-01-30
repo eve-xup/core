@@ -14,10 +14,19 @@ class CreateFleetInvitationTable extends Migration
     public function up()
     {
         Schema::create('fleet_invitations', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->bigInteger('fleet_id');
             $table->bigInteger('character_id');
             $table->timestamps();
+
+            $table->foreign('fleet_id')
+                ->references('fleet_id')
+                ->on('fleets')
+                ->cascadeOnDelete();
+            $table->foreign('character_id')->references('character_id')->on('characters');
         });
+
+
     }
 
     /**

@@ -19,6 +19,11 @@ class CreateWingsTable extends Migration
             $table->string('name');
             $table->timestamps();
             $table->primary('id');
+
+            $table->foreign('fleet_id')
+                ->references('fleet_id')
+                ->on('fleets')
+                ->cascadeOnDelete();
         });
     }
 

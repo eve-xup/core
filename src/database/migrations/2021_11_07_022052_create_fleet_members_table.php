@@ -24,8 +24,21 @@ class CreateFleetMembersTable extends Migration
             $table->bigInteger('squad_id');
             $table->bigInteger('wing_id');
             $table->boolean('takes_fleet_warp');
-
+            $table->boolean('invitation_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('fleet_id')
+                ->references('fleet_id')
+                ->on('fleets')
+                ->cascadeOnDelete();
+
+            /*$table->foreign('squad_id')
+                ->references('id')
+                ->on('squads')
+                ->restrictOnDelete();*/
+
+            $table->index('fleet_id');
+            $table->index('character_id');
         });
     }
 
